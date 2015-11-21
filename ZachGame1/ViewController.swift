@@ -8,8 +8,7 @@
 
 import UIKit
 import Neon
-
-
+import RxCocoa
 
 /// TODO: TTS - http://www.appcoda.com/text-to-speech-ios-tutorial/
 class ViewController: UIViewController {
@@ -29,6 +28,9 @@ class ViewController: UIViewController {
         containerView.fillSuperview(left: 10, right: 10, top: 25, bottom: 10)
         containerView.addSubview(main)
         main.fillSuperview(left: 10, right: 10, top: 25, bottom: 10)
+        
+        main.rx_tap.subscribeNext({ self.displayButtonName(self.main)})
+        main.rx_tap.subscribeNext({ self.main.setTitle("Igor", forState: .Normal)})
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,6 +38,13 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    
+  func displayButtonName(sender: UIButton!) {
+        let alertView = UIAlertView();
+        alertView.addButtonWithTitle("Ok");
+        alertView.title = "You clicked button labeled:"
+        alertView.message  = (sender?.titleLabel?.text)!;
+        alertView.show();
+    }
 }
 
