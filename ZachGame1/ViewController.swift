@@ -10,12 +10,15 @@ import UIKit
 import Neon
 import RxCocoa
 import Dollar
+import AVFoundation
+/// TODO: TTS - http://www.appcoda.com/text-to-speech-ios-tutorial/
 
 class Helpers{
     
     static func buttonForTitle(title:String)->UIButton
     {
         let button = UIButton ();
+        button.titleLabel?.font = UIFont.systemFontOfSize(50)
         button.setTitle(title,forState:.Normal)
         button.backgroundColor = UIColor.redColor()
         button.rx_tap.subscribeNext({ ViewController.displayButtonName(button)})
@@ -28,14 +31,14 @@ class ViewController: UIViewController {
 
     let containerView:UIView = UIView()
     let main:UIButton = Helpers.buttonForTitle("Zach")
-    static let letters = "a b  c d e f g h i j k l m n o p q r s t u v w x y z".componentsSeparatedByString(" ")
-    static let countButtons=4
-    let buttons = $.shuffle(letters.map(Helpers.buttonForTitle)).prefix(countButtons)
+    static let letters = "a b c d e f g h i j k l m n o p q r s t u v w x y z".componentsSeparatedByString(" ")
     override func viewDidLoad() {
         super.viewDidLoad()
         
         containerView.clipsToBounds = true
         containerView.backgroundColor = UIColor.darkGrayColor()
+        let countButtons=4
+        let buttons = $.shuffle(ViewController.letters.map(Helpers.buttonForTitle)).prefix(countButtons)
         
         view.addSubview(containerView)
         // Do any additional setup after loading the view, typically from a nib.
@@ -54,11 +57,17 @@ class ViewController: UIViewController {
 
     
   static func displayButtonName(sender: UIButton!) {
+        let title = (sender?.titleLabel?.text)!;
+    /*
         let alertView = UIAlertView();
         alertView.addButtonWithTitle("Ok");
         alertView.title = "You clicked button labeled:"
-        alertView.message  = (sender?.titleLabel?.text)!;
+        alertView.message  = title
         alertView.show();
+    */
+        let synth = AVSpeechSynthesizer()
+        let myUtterance = AVSpeechUtterance(string:title)
+        synth.speakUtterance(myUtterance)
     }
 }
 

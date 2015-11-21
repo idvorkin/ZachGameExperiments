@@ -2,6 +2,9 @@ PODS:
   - Cent (4.0.1):
     - Dollar (~> 4.0.1)
   - Dollar (4.0.1)
+  - FastttCamera (0.3.4):
+    - FastttCamera/Default (= 0.3.4)
+  - FastttCamera/Default (0.3.4)
   - Neon (0.0.3)
   - RxBlocking (2.0.0-beta.3):
     - RxSwift (~> 2.0.0-beta)
@@ -13,6 +16,7 @@ PODS:
 DEPENDENCIES:
   - Cent (~> 4.0)
   - Dollar (~> 4.0)
+  - FastttCamera
   - Neon (~> 0.0)
   - RxBlocking (~> 2.0.0-beta)
   - RxCocoa (~> 2.0.0-beta)
@@ -22,6 +26,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Cent: 74e3f5a7e8543317b0724c272d279e8219cbaedb
   Dollar: a058e2659e0d3261307c12630dbc2fd8e32f80bf
+  FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
   Neon: 589d3d217d326abe09726bf81add106cff685bf2
   RxBlocking: 331f8bdedf77198f8ff1a37f09c492f1f4f631e5
   RxCocoa: 1472006304b296d03c847f78b21384523cc4902e
