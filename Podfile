@@ -9,6 +9,9 @@ target 'ZachGame1' do
   pod 'Dollar', '~> 4.0'
   pod 'Cent', '~> 4.0'
   pod 'Cent', '~> 4.0'
+  pod 'RxSwift', '~> 2.0.0-beta'
+  pod 'RxCocoa', '~> 2.0.0-beta'
+  pod 'RxBlocking', '~> 2.0.0-beta'
 end
 
 target 'ZachGame1Tests' do
