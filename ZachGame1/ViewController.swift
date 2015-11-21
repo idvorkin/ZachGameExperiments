@@ -9,28 +9,42 @@
 import UIKit
 import Neon
 import RxCocoa
+import Dollar
 
-/// TODO: TTS - http://www.appcoda.com/text-to-speech-ios-tutorial/
+class Helpers{
+    
+    static func buttonForTitle(title:String)->UIButton
+    {
+        let button = UIButton ();
+        button.setTitle(title,forState:.Normal)
+        button.backgroundColor = UIColor.redColor()
+        button.rx_tap.subscribeNext({ ViewController.displayButtonName(button)})
+        return button
+    }
+    
+}
+
 class ViewController: UIViewController {
 
-    let main:UIButton = UIButton()
     let containerView:UIView = UIView()
+    let main:UIButton = Helpers.buttonForTitle("Zach")
+    static let letters = "a b  c d e f g h i j k l m n o p q r s t u v w x y z".componentsSeparatedByString(" ")
+    static let countButtons=4
+    let buttons = $.shuffle(letters.map(Helpers.buttonForTitle)).prefix(countButtons)
     override func viewDidLoad() {
         super.viewDidLoad()
         
         containerView.clipsToBounds = true
-        containerView.backgroundColor = UIColor(red: 61/255.0, green: 61/255.0, blue: 61/255.0, alpha: 1.0)
+        containerView.backgroundColor = UIColor.darkGrayColor()
         
         view.addSubview(containerView)
         // Do any additional setup after loading the view, typically from a nib.
-        main.setTitle("Zach", forState: .Normal)
         view.addSubview(containerView)
-        containerView.fillSuperview(left: 10, right: 10, top: 25, bottom: 10)
+        containerView.fillSuperview(left: 10, right: 10, top: 25, bottom: 100)
         containerView.addSubview(main)
-        main.fillSuperview(left: 10, right: 10, top: 25, bottom: 10)
-        
-        main.rx_tap.subscribeNext({ self.displayButtonName(self.main)})
-        main.rx_tap.subscribeNext({ self.main.setTitle("Igor", forState: .Normal)})
+        // main.fillSuperview(left: 10, right: 10, top: 25, bottom: 50)
+        buttons.forEach{containerView.addSubview($0)}
+        containerView.groupAndFill(group: .Horizontal, views: buttons.map{$0 as Frameable}, padding: 10)
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,7 +53,7 @@ class ViewController: UIViewController {
     }
 
     
-  func displayButtonName(sender: UIButton!) {
+  static func displayButtonName(sender: UIButton!) {
         let alertView = UIAlertView();
         alertView.addButtonWithTitle("Ok");
         alertView.title = "You clicked button labeled:"
