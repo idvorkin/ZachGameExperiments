@@ -1,0 +1,20 @@
+PODS:
+  - Cent (4.0.1):
+    - Dollar (~> 4.0.1)
+  - Dollar (4.0.1)
+  - Neon (0.0.3)
+  - SwiftyJSON (2.3.1)
+
+DEPENDENCIES:
+  - Cent (~> 4.0)
+  - Dollar (~> 4.0)
+  - Neon (~> 0.0)
+  - SwiftyJSON (~> 2.3)
+
+SPEC CHECKSUMS:
+  Cent: 74e3f5a7e8543317b0724c272d279e8219cbaedb
+  Dollar: a058e2659e0d3261307c12630dbc2fd8e32f80bf
+  Neon: 589d3d217d326abe09726bf81add106cff685bf2
+  SwiftyJSON: 592b53bee5ef3dd9b3bebc6b9cb7ee35426ae8c3
+
+COCOAPODS: 0.39.0
