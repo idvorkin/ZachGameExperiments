@@ -29,25 +29,59 @@ class Helpers{
 
 class ViewController: UIViewController {
 
-    let containerView:UIView = UIView()
+    var currentContainerView:UIView = UIView()
     let main:UIButton = Helpers.buttonForTitle("Zach")
+    static let sightWords = "on;for;at;and".componentsSeparatedByString(";")
     static let letters = "a b c d e f g h i j k l m n o p q r s t u v w x y z".componentsSeparatedByString(" ")
+    
+    func CreateView(parentView:UIView)-> UIView
+    {
+        let newContainerView = UIView()
+        parentView.addSubview(newContainerView)
+        newContainerView.clipsToBounds = true
+        newContainerView .backgroundColor = UIColor.darkGrayColor()
+        newContainerView.fillSuperview()
+        
+        // let countButtons=4
+        // let buttons = $.shuffle(ViewController.letters.map(Helpers.buttonForTitle)).prefix(countButtons)
+        let randomSightWord = $.shuffle(ViewController.sightWords).first!
+        
+        
+        // Add first level rows
+        let topHalf = UIView()
+        let bottomHalf = UIView()
+        let reloadHalf = UIView()
+        let topLevelRows = [topHalf, bottomHalf, reloadHalf]
+        topLevelRows.map(newContainerView.addSubview)
+        newContainerView.groupAndFill(group: .Vertical, views: topLevelRows.map{$0 as Frameable}, padding: 10)
+        
+        // Put word in bottom half
+        let sightWord = Helpers.buttonForTitle(randomSightWord)
+        bottomHalf.addSubview(sightWord)
+        bottomHalf.groupAndFill(group: .Horizontal, views: [sightWord].map{$0 as Frameable}, padding: 10)
+        
+        // Put letters in the top half.
+        let letters = Array(randomSightWord.characters).map {String.init($0)}
+        let buttons = letters.map(Helpers.buttonForTitle)
+        buttons.forEach{topHalf.addSubview($0)}
+        topHalf.groupAndFill(group: .Horizontal, views: buttons.map{$0 as Frameable}, padding: 10)
+        
+        // add a reload button
+        let reloadButton = UIButton()
+        reloadButton.setTitle("reload",forState:.Normal)
+        reloadButton.backgroundColor = UIColor.redColor()
+        reloadHalf.addSubview(reloadButton)
+        reloadButton.fillSuperview()
+        reloadButton.rx_tap.subscribeNext{
+            self.currentContainerView.removeFromSuperview();
+            self.currentContainerView = self.CreateView(self.view)
+        }
+        return newContainerView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        containerView.clipsToBounds = true
-        containerView.backgroundColor = UIColor.darkGrayColor()
-        let countButtons=4
-        let buttons = $.shuffle(ViewController.letters.map(Helpers.buttonForTitle)).prefix(countButtons)
-        
-        view.addSubview(containerView)
-        // Do any additional setup after loading the view, typically from a nib.
-        view.addSubview(containerView)
-        containerView.fillSuperview(left: 10, right: 10, top: 25, bottom: 100)
-        containerView.addSubview(main)
-        // main.fillSuperview(left: 10, right: 10, top: 25, bottom: 50)
-        buttons.forEach{containerView.addSubview($0)}
-        containerView.groupAndFill(group: .Horizontal, views: buttons.map{$0 as Frameable}, padding: 10)
+        currentContainerView = CreateView(view)
     }
 
     override func didReceiveMemoryWarning() {
