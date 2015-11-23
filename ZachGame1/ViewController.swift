@@ -31,7 +31,7 @@ class ViewController: UIViewController {
 
     var currentContainerView:UIView = UIView()
     let main:UIButton = Helpers.buttonForTitle("Zach")
-    static let sightWords = "on;for;at;and".componentsSeparatedByString(";")
+    static let sightWords = "on;for;at;and;of;I;me;him;her;who;how;cat;dog;cow".componentsSeparatedByString(";")
     static let letters = "a b c d e f g h i j k l m n o p q r s t u v w x y z".componentsSeparatedByString(" ")
     
     func CreateView(parentView:UIView)-> UIView
@@ -42,34 +42,32 @@ class ViewController: UIViewController {
         newContainerView .backgroundColor = UIColor.darkGrayColor()
         newContainerView.fillSuperview()
         
-        // let countButtons=4
-        // let buttons = $.shuffle(ViewController.letters.map(Helpers.buttonForTitle)).prefix(countButtons)
         let randomSightWord = $.shuffle(ViewController.sightWords).first!
         
-        
-        // Add first level rows
+        // Add top level rows
         let topHalf = UIView()
         let bottomHalf = UIView()
         let reloadHalf = UIView()
         let topLevelRows = [topHalf, bottomHalf, reloadHalf]
-        topLevelRows.map(newContainerView.addSubview)
-        newContainerView.groupAndFill(group: .Vertical, views: topLevelRows.map{$0 as Frameable}, padding: 10)
+        topLevelRows.forEach(newContainerView.addSubview)
+        newContainerView.groupAndFill(group: .Vertical, views:topLevelRows.map {$0 as Frameable}, padding: 10)
         
-        // Put word in bottom half
+        // Put sightWord in bottom half
         let sightWord = Helpers.buttonForTitle(randomSightWord)
         bottomHalf.addSubview(sightWord)
-        bottomHalf.groupAndFill(group: .Horizontal, views: [sightWord].map{$0 as Frameable}, padding: 10)
+        sightWord.fillSuperview(left:10, right:10, top:10, bottom:10)
         
-        // Put letters in the top half.
+        // Put sightWord letters in the top half.
         let letters = Array(randomSightWord.characters).map {String.init($0)}
         let buttons = letters.map(Helpers.buttonForTitle)
         buttons.forEach{topHalf.addSubview($0)}
-        topHalf.groupAndFill(group: .Horizontal, views: buttons.map{$0 as Frameable}, padding: 10)
+        topHalf.groupAndFill(group: .Horizontal, views: buttons.map {$0 as Frameable}, padding: 10)
         
-        // add a reload button
+        // Add a reload button
         let reloadButton = UIButton()
         reloadButton.setTitle("reload",forState:.Normal)
         reloadButton.backgroundColor = UIColor.redColor()
+        reloadButton.titleLabel?.font = UIFont.systemFontOfSize(30)
         reloadHalf.addSubview(reloadButton)
         reloadButton.fillSuperview()
         reloadButton.rx_tap.subscribeNext{
